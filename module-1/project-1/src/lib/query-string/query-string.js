@@ -10,6 +10,19 @@ const queryString = obj => {
   return Object.entries(obj).map(keyValueToString).join('&')
 }
 
+const keyValueStringToArray = keyValue => {
+  const [key, value] = keyValue.split('=')
+
+  if (value.includes(',')) return [key, value.split(',')]
+
+  return [key, value]
+}
+
+const parse = qs => {
+  return Object.fromEntries(qs.split('&').map(keyValueStringToArray))
+}
+
 module.exports = {
-  queryString
+  queryString,
+  parse
 }

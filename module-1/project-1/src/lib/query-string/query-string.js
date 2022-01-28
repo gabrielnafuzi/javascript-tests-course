@@ -6,7 +6,7 @@ const keyValueToString = ([key, value]) => {
   return `${key}=${value}`
 }
 
-const queryString = obj => {
+export const queryString = obj => {
   return Object.entries(obj).map(keyValueToString).join('&')
 }
 
@@ -18,11 +18,6 @@ const keyValueStringToArray = keyValue => {
   return [key, value]
 }
 
-const parse = qs => {
+export const parse = qs => {
   return Object.fromEntries(qs.split('&').map(keyValueStringToArray))
-}
-
-module.exports = {
-  queryString,
-  parse
 }

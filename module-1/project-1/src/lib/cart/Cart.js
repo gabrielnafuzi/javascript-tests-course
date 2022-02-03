@@ -9,11 +9,21 @@ export class Cart {
   items = []
 
   getTotal() {
-    return this.items.reduce(
-      (total, item) =>
-        total.add(Money({ amount: item.product.price * item.quantity })),
-      Money({ amount: 0 })
-    )
+    const sumReducer = (total, item) => {
+      const amount = Money({ amount: item.product.price * item.quantity })
+      let discount = Money({ amount: 0 })
+
+      const shouldApplyDiscount =
+        item.condition?.percentage && item.quantity > item.condition.minimum
+
+      if (shouldApplyDiscount) {
+        discount = amount.percentage(item.condition.percentage)
+      }
+
+      return total.add(amount).subtract(discount)
+    }
+
+    return this.items.reduce(sumReducer, Money({ amount: 0 }))
   }
 
   add(item) {

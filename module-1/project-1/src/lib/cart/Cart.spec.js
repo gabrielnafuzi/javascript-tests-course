@@ -77,5 +77,32 @@ describe('Cart', () => {
 
       expect(cart.checkout()).toMatchSnapshot()
     })
+
+    it('should return an object with the total and the list of items when summary()', () => {
+      cart.add({
+        product,
+        quantity: 2,
+      })
+
+      cart.add({
+        product: product2,
+        quantity: 3,
+      })
+
+      expect(cart.summary()).toMatchSnapshot()
+      expect(cart.getTotal()).toBeGreaterThan(0)
+    })
+
+    it('should reset the cart when checkout() is called', () => {
+      cart.add({
+        product: product2,
+        quantity: 3,
+      })
+
+      const { items } = cart.checkout()
+      console.log(items)
+
+      expect(cart.getTotal()).toEqual(0)
+    })
   })
 })

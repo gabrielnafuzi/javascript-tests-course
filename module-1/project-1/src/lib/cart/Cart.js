@@ -24,4 +24,11 @@ export class Cart {
   remove(product) {
     lodashRemove(this.items, { product })
   }
+
+  checkout() {
+    return {
+      total: this.getTotal(),
+      items: this.items,
+    }
+  }
 }
